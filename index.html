@@ -564,7 +564,127 @@
 <p><em>注意：执行前置递增和递减操作时，变量的值都是在语句被求值以前改变的，后置递增和递减，变量的值是在语句被求值之后改变的</em></p>
 <p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var num1 = 2;</span><br><span class="line">var num2 = 20;</span><br><span class="line">var num3 = --num1 + num2;          //等于21</span><br><span class="line">var num4 = num1 + num2;            //等于21</span><br><span class="line"></span><br><span class="line">var num1 = 2;</span><br><span class="line">var num2 = 20;</span><br><span class="line">var num3 = num1-- + num2;          //等于22</span><br><span class="line">var num4 = num1 + num2;            //等于21</span><br></pre></td></tr></table></figure></p>
 <h4 id="一元加和减操作符"><a href="#一元加和减操作符" class="headerlink" title="一元加和减操作符"></a>一元加和减操作符</h4><p>一元加操作符（+）：放在数值前面不会产生影响，放在非数值前面会像Number()转型函数一样先对这个值进行转换<br>一元减操作符（-）：主要用于表示负数，放在数值前面该值会变成负数，放在非数值前面依旧会先转型然后再变成负数</p>
-<h3 id="位操作符"><a href="#位操作符" class="headerlink" title="位操作符"></a>位操作符</h3>
+<h3 id="位操作符"><a href="#位操作符" class="headerlink" title="位操作符"></a>位操作符</h3><p>按内存中表示数值的位来操作数值</p>
+<p>ECMAScript中的所有数值都以IEEE-754 64位格式存储，位操作符将64位的值转换成32位的整数再将结果转换回64位<br>对于有符号的整数，前31位表示整数的值，第32位是符号位，0表示正数，1表示负数</p>
+<ul>
+<li>正数：纯二进制格式存储，空位填0</li>
+<li>负数：二进制补码格式存储<ul>
+<li>求这个数值绝对值的二进制码</li>
+<li>求反码，即0替换1，1替换0</li>
+<li>反码加1</li>
+</ul>
+</li>
+</ul>
+<p><em>注意：在处理有符号整数时，是不能访问位31的</em></p>
+<p>副效应：对特殊的NaN和Infinity值应用位操作时，都会被当成0来处理</p>
+<h4 id="按位非（NOT）"><a href="#按位非（NOT）" class="headerlink" title="按位非（NOT）"></a>按位非（NOT）</h4><p>（~）表示按位非操作符，结果返回数值的反码<br>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var num1 = 25;              //二进制00000000000000000000000000011001</span><br><span class="line">var num2 = ~num1;           //二进制11111111111111111111111111100110</span><br><span class="line">alert(num2);                //-26</span><br></pre></td></tr></table></figure></p>
+<p>因此：按位非的本质是操作数的负值减1</p>
+<h4 id="按位与（AND）"><a href="#按位与（AND）" class="headerlink" title="按位与（AND）"></a>按位与（AND）</h4><p>（&amp;）表示按位与操作符，它有两个操作符数<br>按位与操作根据下表的规则，对两个数执行AND操作：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">第一个数值的位</th>
+<th style="text-align:center">第二个数值的位</th>
+<th style="text-align:center">结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+</tbody>
+</table>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var result = 25 &amp; 3;</span><br><span class="line">alert(result);          //1</span><br></pre></td></tr></table></figure></p>
+<p>底层操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> 25 = 0000 0000 0000 0000 0000 0000 0001 1001</span><br><span class="line">  3 = 0000 0000 0000 0000 0000 0000 0000 0011</span><br><span class="line">---------------------------------------------</span><br><span class="line">AND = 0000 0000 0000 0000 0000 0000 0000 0001</span><br></pre></td></tr></table></figure></p>
+<p>因此结果最后输出1</p>
+<h4 id="按位或（OR）"><a href="#按位或（OR）" class="headerlink" title="按位或（OR）"></a>按位或（OR）</h4><p>（|）表示按位或操作符，它有两个操作符数<br>按位或操作根据下表的规则，对两个数执行OR操作：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">第一个数值的位</th>
+<th style="text-align:center">第二个数值的位</th>
+<th style="text-align:center">结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+</tbody>
+</table>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var result = 25 | 3;</span><br><span class="line">alert(result);          //27</span><br></pre></td></tr></table></figure></p>
+<p>底层操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> 25 = 0000 0000 0000 0000 0000 0000 0001 1001</span><br><span class="line">  3 = 0000 0000 0000 0000 0000 0000 0000 0011</span><br><span class="line">---------------------------------------------</span><br><span class="line"> OR = 0000 0000 0000 0000 0000 0000 0001 1011</span><br></pre></td></tr></table></figure></p>
+<p>因此结果最后输出27</p>
+<h4 id="按位异或（XOR）"><a href="#按位异或（XOR）" class="headerlink" title="按位异或（XOR）"></a>按位异或（XOR）</h4><p>（^）表示按位异或操作符，它有两个操作符数<br>按位异或操作根据下表的规则，对两个数执行AND操作：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">第一个数值的位</th>
+<th style="text-align:center">第二个数值的位</th>
+<th style="text-align:center">结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+</tbody>
+</table>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var result = 25 ^ 3;</span><br><span class="line">alert(result);          //26</span><br></pre></td></tr></table></figure></p>
+<p>底层操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> 25 = 0000 0000 0000 0000 0000 0000 0001 1001</span><br><span class="line">  3 = 0000 0000 0000 0000 0000 0000 0000 0011</span><br><span class="line">---------------------------------------------</span><br><span class="line">XOR = 0000 0000 0000 0000 0000 0000 0001 1010</span><br></pre></td></tr></table></figure></p>
+<p>因此结果最后输出26</p>
+
           
         
       

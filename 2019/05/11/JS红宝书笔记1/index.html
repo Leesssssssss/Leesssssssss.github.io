@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Leessssssss&#39; Blog">
 <meta property="og:description" content="（第1~3章） JavaScript组成JavaScript是一种专为与网页交互而设计的脚本语言，由下列三个不同的部分组成：  ECMAScript （核心） DOM （文档对象模型） BOM （浏览器对象模型）  语法区分大小写标识符 第一个字符必须是一个字母、下划线( _ )或一个美元符号( $ ) 其他字符可以是字母、下划线、美元符号或数字 不能把关键字、保留字、true、false和nul">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-12T13:40:22.156Z">
+<meta property="og:updated_time" content="2019-05-13T14:00:25.608Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS红宝书笔记1">
 <meta name="twitter:description" content="（第1~3章） JavaScript组成JavaScript是一种专为与网页交互而设计的脚本语言，由下列三个不同的部分组成：  ECMAScript （核心） DOM （文档对象模型） BOM （浏览器对象模型）  语法区分大小写标识符 第一个字符必须是一个字母、下划线( _ )或一个美元符号( $ ) 其他字符可以是字母、下划线、美元符号或数字 不能把关键字、保留字、true、false和nul">
@@ -564,7 +564,127 @@
 <p><em>注意：执行前置递增和递减操作时，变量的值都是在语句被求值以前改变的，后置递增和递减，变量的值是在语句被求值之后改变的</em></p>
 <p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var num1 = 2;</span><br><span class="line">var num2 = 20;</span><br><span class="line">var num3 = --num1 + num2;          //等于21</span><br><span class="line">var num4 = num1 + num2;            //等于21</span><br><span class="line"></span><br><span class="line">var num1 = 2;</span><br><span class="line">var num2 = 20;</span><br><span class="line">var num3 = num1-- + num2;          //等于22</span><br><span class="line">var num4 = num1 + num2;            //等于21</span><br></pre></td></tr></table></figure></p>
 <h4 id="一元加和减操作符"><a href="#一元加和减操作符" class="headerlink" title="一元加和减操作符"></a>一元加和减操作符</h4><p>一元加操作符（+）：放在数值前面不会产生影响，放在非数值前面会像Number()转型函数一样先对这个值进行转换<br>一元减操作符（-）：主要用于表示负数，放在数值前面该值会变成负数，放在非数值前面依旧会先转型然后再变成负数</p>
-<h3 id="位操作符"><a href="#位操作符" class="headerlink" title="位操作符"></a>位操作符</h3>
+<h3 id="位操作符"><a href="#位操作符" class="headerlink" title="位操作符"></a>位操作符</h3><p>按内存中表示数值的位来操作数值</p>
+<p>ECMAScript中的所有数值都以IEEE-754 64位格式存储，位操作符将64位的值转换成32位的整数再将结果转换回64位<br>对于有符号的整数，前31位表示整数的值，第32位是符号位，0表示正数，1表示负数</p>
+<ul>
+<li>正数：纯二进制格式存储，空位填0</li>
+<li>负数：二进制补码格式存储<ul>
+<li>求这个数值绝对值的二进制码</li>
+<li>求反码，即0替换1，1替换0</li>
+<li>反码加1</li>
+</ul>
+</li>
+</ul>
+<p><em>注意：在处理有符号整数时，是不能访问位31的</em></p>
+<p>副效应：对特殊的NaN和Infinity值应用位操作时，都会被当成0来处理</p>
+<h4 id="按位非（NOT）"><a href="#按位非（NOT）" class="headerlink" title="按位非（NOT）"></a>按位非（NOT）</h4><p>（~）表示按位非操作符，结果返回数值的反码<br>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var num1 = 25;              //二进制00000000000000000000000000011001</span><br><span class="line">var num2 = ~num1;           //二进制11111111111111111111111111100110</span><br><span class="line">alert(num2);                //-26</span><br></pre></td></tr></table></figure></p>
+<p>因此：按位非的本质是操作数的负值减1</p>
+<h4 id="按位与（AND）"><a href="#按位与（AND）" class="headerlink" title="按位与（AND）"></a>按位与（AND）</h4><p>（&amp;）表示按位与操作符，它有两个操作符数<br>按位与操作根据下表的规则，对两个数执行AND操作：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">第一个数值的位</th>
+<th style="text-align:center">第二个数值的位</th>
+<th style="text-align:center">结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+</tbody>
+</table>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var result = 25 &amp; 3;</span><br><span class="line">alert(result);          //1</span><br></pre></td></tr></table></figure></p>
+<p>底层操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> 25 = 0000 0000 0000 0000 0000 0000 0001 1001</span><br><span class="line">  3 = 0000 0000 0000 0000 0000 0000 0000 0011</span><br><span class="line">---------------------------------------------</span><br><span class="line">AND = 0000 0000 0000 0000 0000 0000 0000 0001</span><br></pre></td></tr></table></figure></p>
+<p>因此结果最后输出1</p>
+<h4 id="按位或（OR）"><a href="#按位或（OR）" class="headerlink" title="按位或（OR）"></a>按位或（OR）</h4><p>（|）表示按位或操作符，它有两个操作符数<br>按位或操作根据下表的规则，对两个数执行OR操作：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">第一个数值的位</th>
+<th style="text-align:center">第二个数值的位</th>
+<th style="text-align:center">结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+</tbody>
+</table>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var result = 25 | 3;</span><br><span class="line">alert(result);          //27</span><br></pre></td></tr></table></figure></p>
+<p>底层操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> 25 = 0000 0000 0000 0000 0000 0000 0001 1001</span><br><span class="line">  3 = 0000 0000 0000 0000 0000 0000 0000 0011</span><br><span class="line">---------------------------------------------</span><br><span class="line"> OR = 0000 0000 0000 0000 0000 0000 0001 1011</span><br></pre></td></tr></table></figure></p>
+<p>因此结果最后输出27</p>
+<h4 id="按位异或（XOR）"><a href="#按位异或（XOR）" class="headerlink" title="按位异或（XOR）"></a>按位异或（XOR）</h4><p>（^）表示按位异或操作符，它有两个操作符数<br>按位异或操作根据下表的规则，对两个数执行AND操作：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">第一个数值的位</th>
+<th style="text-align:center">第二个数值的位</th>
+<th style="text-align:center">结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+</tbody>
+</table>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var result = 25 ^ 3;</span><br><span class="line">alert(result);          //26</span><br></pre></td></tr></table></figure></p>
+<p>底层操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> 25 = 0000 0000 0000 0000 0000 0000 0001 1001</span><br><span class="line">  3 = 0000 0000 0000 0000 0000 0000 0000 0011</span><br><span class="line">---------------------------------------------</span><br><span class="line">XOR = 0000 0000 0000 0000 0000 0000 0001 1010</span><br></pre></td></tr></table></figure></p>
+<p>因此结果最后输出26</p>
+
       
     </div>
     
@@ -711,7 +831,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript组成"><span class="nav-number">1.</span> <span class="nav-text">JavaScript组成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法"><span class="nav-number">2.</span> <span class="nav-text">语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#区分大小写"><span class="nav-number">2.1.</span> <span class="nav-text">区分大小写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标识符"><span class="nav-number">2.2.</span> <span class="nav-text">标识符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注释"><span class="nav-number">2.3.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#严格模式"><span class="nav-number">2.4.</span> <span class="nav-text">严格模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语句"><span class="nav-number">2.5.</span> <span class="nav-text">语句</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键字和保留字"><span class="nav-number">3.</span> <span class="nav-text">关键字和保留字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量"><span class="nav-number">4.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型"><span class="nav-number">5.</span> <span class="nav-text">数据类型*</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#typeof操作符"><span class="nav-number">5.1.</span> <span class="nav-text">typeof操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Undefined类型"><span class="nav-number">5.2.</span> <span class="nav-text">Undefined类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Null类型"><span class="nav-number">5.3.</span> <span class="nav-text">Null类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boolean类型"><span class="nav-number">5.4.</span> <span class="nav-text">Boolean类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Number类型"><span class="nav-number">5.5.</span> <span class="nav-text">Number类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#浮点数值"><span class="nav-number">5.5.1.</span> <span class="nav-text">浮点数值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数值范围"><span class="nav-number">5.5.2.</span> <span class="nav-text">数值范围</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NaN"><span class="nav-number">5.5.3.</span> <span class="nav-text">NaN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数值转换"><span class="nav-number">5.5.4.</span> <span class="nav-text">数值转换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#String类型"><span class="nav-number">5.6.</span> <span class="nav-text">String类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字符字面量"><span class="nav-number">5.6.1.</span> <span class="nav-text">字符字面量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串的特点"><span class="nav-number">5.6.2.</span> <span class="nav-text">字符串的特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#转换为字符串"><span class="nav-number">5.6.3.</span> <span class="nav-text">转换为字符串</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object类型"><span class="nav-number">5.7.</span> <span class="nav-text">Object类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作符"><span class="nav-number">6.</span> <span class="nav-text">操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一元操作符"><span class="nav-number">6.1.</span> <span class="nav-text">一元操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#递增和递减操作符"><span class="nav-number">6.1.1.</span> <span class="nav-text">递增和递减操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一元加和减操作符"><span class="nav-number">6.1.2.</span> <span class="nav-text">一元加和减操作符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#位操作符"><span class="nav-number">6.2.</span> <span class="nav-text">位操作符</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript组成"><span class="nav-number">1.</span> <span class="nav-text">JavaScript组成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法"><span class="nav-number">2.</span> <span class="nav-text">语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#区分大小写"><span class="nav-number">2.1.</span> <span class="nav-text">区分大小写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标识符"><span class="nav-number">2.2.</span> <span class="nav-text">标识符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注释"><span class="nav-number">2.3.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#严格模式"><span class="nav-number">2.4.</span> <span class="nav-text">严格模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语句"><span class="nav-number">2.5.</span> <span class="nav-text">语句</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键字和保留字"><span class="nav-number">3.</span> <span class="nav-text">关键字和保留字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量"><span class="nav-number">4.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型"><span class="nav-number">5.</span> <span class="nav-text">数据类型*</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#typeof操作符"><span class="nav-number">5.1.</span> <span class="nav-text">typeof操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Undefined类型"><span class="nav-number">5.2.</span> <span class="nav-text">Undefined类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Null类型"><span class="nav-number">5.3.</span> <span class="nav-text">Null类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boolean类型"><span class="nav-number">5.4.</span> <span class="nav-text">Boolean类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Number类型"><span class="nav-number">5.5.</span> <span class="nav-text">Number类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#浮点数值"><span class="nav-number">5.5.1.</span> <span class="nav-text">浮点数值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数值范围"><span class="nav-number">5.5.2.</span> <span class="nav-text">数值范围</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NaN"><span class="nav-number">5.5.3.</span> <span class="nav-text">NaN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数值转换"><span class="nav-number">5.5.4.</span> <span class="nav-text">数值转换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#String类型"><span class="nav-number">5.6.</span> <span class="nav-text">String类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字符字面量"><span class="nav-number">5.6.1.</span> <span class="nav-text">字符字面量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串的特点"><span class="nav-number">5.6.2.</span> <span class="nav-text">字符串的特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#转换为字符串"><span class="nav-number">5.6.3.</span> <span class="nav-text">转换为字符串</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object类型"><span class="nav-number">5.7.</span> <span class="nav-text">Object类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作符"><span class="nav-number">6.</span> <span class="nav-text">操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一元操作符"><span class="nav-number">6.1.</span> <span class="nav-text">一元操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#递增和递减操作符"><span class="nav-number">6.1.1.</span> <span class="nav-text">递增和递减操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一元加和减操作符"><span class="nav-number">6.1.2.</span> <span class="nav-text">一元加和减操作符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#位操作符"><span class="nav-number">6.2.</span> <span class="nav-text">位操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#按位非（NOT）"><span class="nav-number">6.2.1.</span> <span class="nav-text">按位非（NOT）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#按位与（AND）"><span class="nav-number">6.2.2.</span> <span class="nav-text">按位与（AND）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#按位或（OR）"><span class="nav-number">6.2.3.</span> <span class="nav-text">按位或（OR）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#按位异或（XOR）"><span class="nav-number">6.2.4.</span> <span class="nav-text">按位异或（XOR）</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
