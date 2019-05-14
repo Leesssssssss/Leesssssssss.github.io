@@ -684,6 +684,12 @@
 <p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var result = 25 ^ 3;</span><br><span class="line">alert(result);          //26</span><br></pre></td></tr></table></figure></p>
 <p>底层操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> 25 = 0000 0000 0000 0000 0000 0000 0001 1001</span><br><span class="line">  3 = 0000 0000 0000 0000 0000 0000 0000 0011</span><br><span class="line">---------------------------------------------</span><br><span class="line">XOR = 0000 0000 0000 0000 0000 0000 0001 1010</span><br></pre></td></tr></table></figure></p>
 <p>因此结果最后输出26</p>
+<h4 id="左移"><a href="#左移" class="headerlink" title="左移"></a>左移</h4><p>（&lt;&lt;）表示左移操作符，会将数值所有位向左移动指定位数</p>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var oldValue = 2;                      //等于二进制10</span><br><span class="line">var newValue = oldValue &lt;&lt; 5;          //等于二进制1000000，十进制64</span><br></pre></td></tr></table></figure></p>
+<p><em>注意：左移不会影响操作数的符号位</em></p>
+<h4 id="有符号的右移"><a href="#有符号的右移" class="headerlink" title="有符号的右移"></a>有符号的右移</h4><p>（&gt;&gt;）表示有符号的右移操作符，会将数值向右移动但保留符号位</p>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var oldValue = 64;                     //等于二进制1000000</span><br><span class="line">var newValue = oldValue &gt;&gt; 5;          //等于二进制10，十进制2</span><br></pre></td></tr></table></figure></p>
+<h4 id="无符号右移"><a href="#无符号右移" class="headerlink" title="无符号右移"></a>无符号右移</h4><p>（&gt;&gt;&gt;）表示无符号右移操作符，会将数值所有位都向右移动，对正数来说结果与有符号右移相同</p>
 
           
         
