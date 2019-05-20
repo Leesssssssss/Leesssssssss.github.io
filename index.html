@@ -778,7 +778,11 @@
 <li>第一个操作数是NaN ———— 返回NaN</li>
 <li>第一个操作数是undefined ———— 返回undefined</li>
 </ul>
-
+<p><em>注意：逻辑与操作属于短路操作，第一个操作数能决定结果就不会对第二个操作数求值</em></p>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var found = true;</span><br><span class="line">var result = (found &amp;&amp; someUndefinedVariable);        //这里会发生错误</span><br><span class="line">alert(result);              //这一行不会执行</span><br></pre></td></tr></table></figure></p>
+<p>由于found值为true，继续对变量someUndefinedVariable求值，但someUndefinedVariable没有声明就会导致错误<br>而found为false就不会发生错误，因为found为false就不会对someUndefinedVariable求值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var found = false;</span><br><span class="line">var result = (found &amp;&amp; someUndefinedVariable);        //不会发生错误</span><br><span class="line">alert(result);              //false</span><br></pre></td></tr></table></figure>
+<h4 id="逻辑或"><a href="#逻辑或" class="headerlink" title="逻辑或"></a>逻辑或</h4>
           
         
       
