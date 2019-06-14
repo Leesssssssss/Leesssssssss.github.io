@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="微信小程序支付,egg.js,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="（仅提供参考，具体内容详见微信小程序支付开发文档） 前提：  小程序 appid 商户号 mch_id 以及商户API密钥 key 通知地址 notify_url（外网可访问的，必须为https协议） 授权用户 openid  一、    统一下单微信接口（https://api.mch.weixin.qq.com/pay/unifiedorder）需要向接口提交下列参数（ 必填 ）：123456">
+<meta name="keywords" content="微信小程序支付,egg.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信小程序支付（后端使用egg.js框架）">
+<meta property="og:url" content="http://yoursite.com/2019/06/14/微信小程序支付（后端使用egg-js框架）/index.html">
+<meta property="og:site_name" content="Leessssssss&#39; Blog">
+<meta property="og:description" content="（仅提供参考，具体内容详见微信小程序支付开发文档） 前提：  小程序 appid 商户号 mch_id 以及商户API密钥 key 通知地址 notify_url（外网可访问的，必须为https协议） 授权用户 openid  一、    统一下单微信接口（https://api.mch.weixin.qq.com/pay/unifiedorder）需要向接口提交下列参数（ 必填 ）：123456">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/cert.png">
+<meta property="og:updated_time" content="2019-06-14T09:00:19.851Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微信小程序支付（后端使用egg.js框架）">
+<meta name="twitter:description" content="（仅提供参考，具体内容详见微信小程序支付开发文档） 前提：  小程序 appid 商户号 mch_id 以及商户API密钥 key 通知地址 notify_url（外网可访问的，必须为https协议） 授权用户 openid  一、    统一下单微信接口（https://api.mch.weixin.qq.com/pay/unifiedorder）需要向接口提交下列参数（ 必填 ）：123456">
+<meta name="twitter:image" content="http://yoursite.com/images/cert.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/14/微信小程序支付（后端使用egg-js框架）/">
+
+
+
+
+
+  <title>微信小程序支付（后端使用egg.js框架） | Leessssssss' Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Leessssssss' Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Good good study, day day up.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/14/微信小程序支付（后端使用egg-js框架）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Leesssssssss">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1557580770524&di=2fcb84b02524e5039a50fb0ac8696431&imgtype=0&src=http%3A%2F%2Fimg.besoo.com%2Ffile%2F201810%2F16%2Ft2ntcgxqrkg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leessssssss' Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">微信小程序支付（后端使用egg.js框架）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-14T16:16:14+08:00">
+                2019-06-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/微信/" itemprop="url" rel="index">
+                    <span itemprop="name">微信</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><em>（仅提供参考，具体内容详见<a href="https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=7_3&amp;index=1" target="_blank" rel="noopener">微信小程序支付开发文档</a>）</em></p>
+<p><strong>前提：</strong></p>
+<ul>
+<li>小程序 <strong>appid</strong></li>
+<li>商户号 <strong>mch_id</strong> 以及商户API密钥 <strong>key</strong></li>
+<li>通知地址 <strong>notify_url</strong>（外网可访问的，必须为https协议）</li>
+<li>授权用户 <strong>openid</strong></li>
+</ul>
+<h2 id="一、-统一下单"><a href="#一、-统一下单" class="headerlink" title="一、    统一下单"></a>一、    统一下单</h2><p>微信接口（<a href="https://api.mch.weixin.qq.com/pay/unifiedorder）" target="_blank" rel="noopener">https://api.mch.weixin.qq.com/pay/unifiedorder）</a><br>需要向接口提交下列参数（ <strong>必填</strong> ）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">openid                             //用户openid</span><br><span class="line">appid                              //小程序appid</span><br><span class="line">mch_id                             //商户号</span><br><span class="line">nonce_str                          //随机字符串</span><br><span class="line">sign                               //签名</span><br><span class="line">body                               //商品描述</span><br><span class="line">out_trade_no                       //商户订单号</span><br><span class="line">total_fee                          //标价金额  （单位是分）</span><br><span class="line">spbill_create_ip                   //终端IP （127.0.0.1就行）</span><br><span class="line">notify_url                         //通知地址（外网可访问）</span><br><span class="line">trade_type                         //交易类型（小程序填&apos;JSAPI&apos;）</span><br></pre></td></tr></table></figure></p>
+<p>其中 <strong>随机字符串</strong> 可通过随机函数生成<br>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Math.random().toString(36).substr(2, 15)</span><br></pre></td></tr></table></figure></p>
+<p><strong>签名</strong> 则需要</p>
+<ul>
+<li>将所有要提交的参数先根据参数名ASCII码从小到大排序（字典序）写成字符串：key1=value1&amp;key2=value2……格式</li>
+<li>再将商户API密钥 <strong>key</strong> 拼接在字符串最后</li>
+<li>使用MD5算法加密整个字符串</li>
+<li>最后将字符串所有字符转换成大写（ <strong>务必注意检查字符串拼接是否正确</strong> ）</li>
+</ul>
+<p>将所有参数转化成 <strong>xml格式</strong> 发送给微信接口，成功后将会返回参数 <strong>prepay_id</strong> （同是xml格式）。</p>
+<h2 id="二、-发起支付"><a href="#二、-发起支付" class="headerlink" title="二、    发起支付"></a>二、    发起支付</h2><p>首先需要提供下列参数进行再次签名得到参数 <strong>paySign</strong> （ <strong>必填</strong> ）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">appId                      //小程序appid（一定注意大小写，第一次签名是小写appid，再次签名是大写appId）</span><br><span class="line">timeStamp                  //时间戳</span><br><span class="line">nonceStr                   //随机字符串</span><br><span class="line">package                    //数据包（格式为prepay_id=wx1414234242342）</span><br><span class="line">signType                   //签名方式（默认MD5）</span><br></pre></td></tr></table></figure></p>
+<p>签名方法和上面讲述的一样，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">（paySign=MD5(appId=wxd678efh567hg6787&amp;nonceStr=5K8264ILTKCH16CQ2502SI8ZNMTM67VS&amp;package=prepay_id=wx2017033010242291fcfe0db70013231072&amp;signType=MD5&amp;timeStamp=1490840662&amp;key=qazwsxedcrfvtgbyhnujmikolp111111) = 22D9B4E54AB1950F51E0649E8810ACD6）</span><br></pre></td></tr></table></figure></p>
+<p>发起支付需要提供下列参数（ <strong>必填</strong> ）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">timeStamp                    //时间戳（与再次签名时提供的参数值一致）</span><br><span class="line">nonceStr                     //随机字符串（与再次签名时提供的参数值一致）</span><br><span class="line">package                      //数据包（格式为prepay_id=wx1414234242342）</span><br><span class="line">signType                     //签名方式（默认MD5）</span><br><span class="line">paySign                      //再次签名所得paySign值</span><br></pre></td></tr></table></figure></p>
+<p>调用微信提供的API发起支付：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">wx.requestPayment(&#123;</span><br><span class="line">  &apos;timeStamp&apos;: &apos;&apos;,</span><br><span class="line">  &apos;nonceStr&apos;: &apos;&apos;,</span><br><span class="line">  &apos;package&apos;: &apos;&apos;,</span><br><span class="line">  &apos;signType&apos;: &apos;MD5&apos;,</span><br><span class="line">  &apos;paySign&apos;: &apos;&apos;,</span><br><span class="line">  &apos;success&apos;:function(res)&#123;&#125;,</span><br><span class="line">  &apos;fail&apos;:function(res)&#123;&#125;,</span><br><span class="line">  &apos;complete&apos;:function(res)&#123;&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<h2 id="三、-微信回调"><a href="#三、-微信回调" class="headerlink" title="三、    微信回调"></a>三、    微信回调</h2><p>用户支付成功之后，微信会调用统一下单时填写的 <strong>notify_url</strong> 回调地址，并将支付结果返回给该地址，返回值仍旧是  <strong>xml格式</strong>。</p>
+<p>其中egg.js处理微信返回的xml的方法是在config/config.default.js中添加以下字段：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">config.bodyParser = &#123;</span><br><span class="line">  enableTypes: [&apos;json&apos;, &apos;form&apos;, &apos;text&apos;],</span><br><span class="line">  extendTypes: &#123;</span><br><span class="line">    text: [&apos;text/xml&apos;, &apos;application/xml&apos;],</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>若成功收到微信发送的支付结果通知，需要向微信返回信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;xml&gt;</span><br><span class="line">  &lt;return_code&gt;&lt;![CDATA[SUCCESS]]&gt;&lt;/return_code&gt;</span><br><span class="line">  &lt;return_msg&gt;&lt;![CDATA[OK]]&gt;&lt;/return_msg&gt;</span><br><span class="line">&lt;/xml&gt;</span><br></pre></td></tr></table></figure></p>
+<p>以此来告知微信已经收到支付结果，若发送信息 <strong>不符合规范或超时</strong> ，微信将会判定通知发送 <strong>失败</strong>，将继续发送，若一直不成功将每隔一段时间发送一次，共发送 <strong>10次</strong>。</p>
+<h2 id="四、-查询订单"><a href="#四、-查询订单" class="headerlink" title="四、    查询订单"></a>四、    查询订单</h2><p>需要调用查询接口的情况：</p>
+<ul>
+<li>当商户后台、网络、服务器等出现异常，商户系统最终未接收到支付通知；</li>
+<li>调用支付接口后，返回系统错误或未知交易状态情况；</li>
+<li>调用刷卡支付API，返回USERPAYING的状态；</li>
+<li>调用关单或撤销接口API之前，需确认支付状态；</li>
+</ul>
+<p>微信接口（<a href="https://api.mch.weixin.qq.com/pay/orderquery）" target="_blank" rel="noopener">https://api.mch.weixin.qq.com/pay/orderquery）</a><br>查询订单需要向接口提供下列参数（ <strong>必填</strong> ）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">appid                           //小程序appid</span><br><span class="line">mch_id                          //商户号</span><br><span class="line">nonce_str                       //随机字符串</span><br><span class="line">sign                            //签名</span><br><span class="line">out_trade_no/transaction_id     //商户订单号/微信订单号（二选一）</span><br><span class="line">                                  微信订单号优先</span><br></pre></td></tr></table></figure></p>
+<p>其中 <strong>随机字符串</strong> 和 <strong>签名</strong> 都要重新生成，方法和统一下单时一样，也同样需要将所有参数转换成 <strong>xml格式</strong> 之后发送。</p>
+<h2 id="五、-关闭订单"><a href="#五、-关闭订单" class="headerlink" title="五、    关闭订单"></a>五、    关闭订单</h2><p>以下情况需要调用关单接口：</p>
+<ul>
+<li>商户订单支付失败需要生成新单号重新发起支付，要对原订单号调用关单，避免重复支付；</li>
+<li>系统下单后，用户支付超时，系统退出不再受理，避免用户继续，请调用关单接口。</li>
+</ul>
+<p><em>注意：订单生成后不能马上调用关单接口，最短调用时间间隔为5分钟。</em></p>
+<p>微信接口（<a href="https://api.mch.weixin.qq.com/pay/closeorder）" target="_blank" rel="noopener">https://api.mch.weixin.qq.com/pay/closeorder）</a><br>关闭订单需要向接口提供下列参数（ <strong>必填</strong> ）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">appid                          //小程序appid</span><br><span class="line">mch_id                         //商户号</span><br><span class="line">nonce_str                      //随机字符串</span><br><span class="line">sign                           //签名</span><br><span class="line">out_trade_no                   //商户订单号</span><br></pre></td></tr></table></figure></p>
+<p>其中 <strong>随机字符串</strong> 和 <strong>签名</strong> 都要重新生成，方法和统一下单时一样，也同样需要将所有参数转换成 <strong>xml格式</strong> 之后发送。</p>
+<h2 id="六、-申请退款"><a href="#六、-申请退款" class="headerlink" title="六、    申请退款"></a>六、    申请退款</h2><p>当交易发生之后一段时间内，由于买家或者卖家的原因需要退款时，卖家可以通过退款接口将支付款退还给买家，微信支付将在 <strong>收到退款请求并且验证成功</strong> 之后，按照退款规则将支付款 <strong>按原路</strong> 退到买家帐号上。</p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>交易时间超过一年的订单无法提交退款</li>
+<li>微信支付退款支持单笔交易分多次退款，多次退款需要提交原支付订单的商户订单号和设置不同的退款单号。申请退款总金额不能超过订单金额。 一笔退款失败后重新提交，请不要更换退款单号，请使用原商户退款单号</li>
+<li>请求频率限制：150qps，即每秒钟正常的申请退款请求次数不超过150次<br>错误或无效请求频率限制：6qps，即每秒钟异常或错误的退款申请请求不超过6次</li>
+<li>每个支付订单的部分退款次数不能超过50次</li>
+</ul>
+<p>微信接口（<a href="https://api.mch.weixin.qq.com/secapi/pay/refund）" target="_blank" rel="noopener">https://api.mch.weixin.qq.com/secapi/pay/refund）</a><br>申请退款需要向接口提供下列参数（ <strong>必填</strong> ）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">appid                           //小程序appid</span><br><span class="line">mch_id                          //商户号</span><br><span class="line">nonce_str                       //随机字符串</span><br><span class="line">sign                            //签名</span><br><span class="line">out_trade_no/transaction_id     //商户订单号/微信订单号（二选一）</span><br><span class="line">out_refund_no                   //商户退款单号（由商户自己生成）</span><br><span class="line">total_fee                       //标价金额  （单位是分）</span><br><span class="line">refund_fee                      //退款金额  （单位是分）</span><br></pre></td></tr></table></figure></p>
+<p>其中 <strong>随机字符串</strong> 和 <strong>签名</strong> 都要重新生成，方法和统一下单时一样，也同样需要将所有参数转换成 <strong>xml格式</strong> 之后发送。</p>
+<p><strong>注意：该请求需要证书</strong></p>
+<p>证书配置详见：<a href="https://www.cnblogs.com/xiaoxiangpaou/p/9799527.html" target="_blank" rel="noopener">https://www.cnblogs.com/xiaoxiangpaou/p/9799527.html</a></p>
+<p>在 <strong>商户平台</strong> 下载好证书并解压后：<br><img src="/images/cert.png" alt="cert"></p>
+<p>其中egg.js使用证书方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const  refunded = await ctx.curl(&apos;https://api.mch.weixin.qq.com/secapi/pay/refund&apos;, &#123;</span><br><span class="line">  method: &apos;POST&apos;,</span><br><span class="line">  content: xmlAsStr.toString(),</span><br><span class="line">  cert: fs.readFileSync(&apos;./app/cert/apiclient_cert.pem&apos;),</span><br><span class="line">  key: fs.readFileSync(&apos;./app/cert/apiclient_key.pem&apos;),</span><br><span class="line">  headers: &#123;</span><br><span class="line">    &apos;content-type&apos;: &apos;text/html&apos;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p><em>注意：node.js中引用fs模块读取文件路径的起始位置为运行该项目的位置而非写入fs的位置。</em></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/微信小程序支付/" rel="tag"># 微信小程序支付</a>
+          
+            <a href="/tags/egg-js/" rel="tag"># egg.js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/11/JS红宝书笔记1/" rel="next" title="JS红宝书笔记1">
+                <i class="fa fa-chevron-left"></i> JS红宝书笔记1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1557580770524&di=2fcb84b02524e5039a50fb0ac8696431&imgtype=0&src=http%3A%2F%2Fimg.besoo.com%2Ffile%2F201810%2F16%2Ft2ntcgxqrkg.jpg" alt="Leesssssssss">
+            
+              <p class="site-author-name" itemprop="name">Leesssssssss</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、-统一下单"><span class="nav-number">1.</span> <span class="nav-text">一、    统一下单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、-发起支付"><span class="nav-number">2.</span> <span class="nav-text">二、    发起支付</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、-微信回调"><span class="nav-number">3.</span> <span class="nav-text">三、    微信回调</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、-查询订单"><span class="nav-number">4.</span> <span class="nav-text">四、    查询订单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、-关闭订单"><span class="nav-number">5.</span> <span class="nav-text">五、    关闭订单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、-申请退款"><span class="nav-number">6.</span> <span class="nav-text">六、    申请退款</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leesssssssss</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Github主页 <a class="theme-link" target="_blank" href="https://github.com/Leesssssssss">Leesssssssss</a> </div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">谢谢支持 </div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
