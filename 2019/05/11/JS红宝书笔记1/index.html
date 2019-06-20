@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Leessssssss&#39; Blog">
 <meta property="og:description" content="（第1~3章） JavaScript组成JavaScript是一种专为与网页交互而设计的脚本语言，由下列三个不同的部分组成：  ECMAScript （核心） DOM （文档对象模型） BOM （浏览器对象模型）  语法区分大小写标识符 第一个字符必须是一个字母、下划线( _ )或一个美元符号( $ ) 其他字符可以是字母、下划线、美元符号或数字 不能把关键字、保留字、true、false和nul">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-15T08:50:14.693Z">
+<meta property="og:updated_time" content="2019-06-20T13:12:42.401Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS红宝书笔记1">
 <meta name="twitter:description" content="（第1~3章） JavaScript组成JavaScript是一种专为与网页交互而设计的脚本语言，由下列三个不同的部分组成：  ECMAScript （核心） DOM （文档对象模型） BOM （浏览器对象模型）  语法区分大小写标识符 第一个字符必须是一个字母、下划线( _ )或一个美元符号( $ ) 其他字符可以是字母、下划线、美元符号或数字 不能把关键字、保留字、true、false和nul">
@@ -852,7 +852,182 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var found = false;</span><br><span class="line">var result = (found || someUndefinedVariable);        //这里会发生错误</span><br><span class="line">alert(result);              //这一行不会执行</span><br></pre></td></tr></table></figure>
 <p>可以利用逻辑或这一行为避免为变量赋null或undefined值，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var myObject = preferredObject || backupObject;</span><br></pre></td></tr></table></figure></p>
 <p>优先把变量preferredObject的值赋给变量myObject，在变量preferredObject不包含有效值的情况下把变量backupObject的值赋给变量myObject</p>
-<h3 id="乘性操作符"><a href="#乘性操作符" class="headerlink" title="乘性操作符"></a>乘性操作符</h3>
+<h3 id="乘性操作符"><a href="#乘性操作符" class="headerlink" title="乘性操作符"></a>乘性操作符</h3><h4 id="乘法"><a href="#乘法" class="headerlink" title="乘法"></a>乘法</h4><p>（*）表示乘法操作符，用于计算两个数值的乘积</p>
+<p>在处理特殊值的情况下，遵循如下规则：</p>
+<ul>
+<li>操作数都是数值正常计算，一个操作数有符号结果为负数，乘积超过数值范围返回Infinity或-Infinity</li>
+<li>有一个操作数是NaN ———— 返回NaN</li>
+<li>Infinity与0相乘 ———— 返回NaN</li>
+<li>Infinity与非0数值相乘 ———— 返回Infinity或-Infinity</li>
+<li>Infinity与Infinity相乘 ———— 返回Infinity</li>
+<li>有一个操作数不是数值 ———— 调用Number()转换为数值再应用上面的规则</li>
+</ul>
+<h4 id="除法"><a href="#除法" class="headerlink" title="除法"></a>除法</h4><p>（/）表示除法操作符，计算第二个操作数除第一个操作数</p>
+<p>在处理特殊值的情况下，遵循如下规则：</p>
+<ul>
+<li>操作数都是数值正常计算，一个操作数有符号结果为负数，乘积超过数值范围返回Infinity或-Infinity</li>
+<li>有一个操作数是NaN ———— 返回NaN</li>
+<li>Infinity被Infinity除 ———— 返回NaN</li>
+<li>0被0除 ———— 返回NaN</li>
+<li>非0的有限数被0除 ———— 返回Infinity或-Infinity</li>
+<li>Infinity被任何非0数值除 ———— 返回Infinity或-Infinity</li>
+<li>有一个操作数不是数值 ———— 调用Number()转换为数值再应用上面的规则</li>
+</ul>
+<h4 id="求模"><a href="#求模" class="headerlink" title="求模"></a>求模</h4><p>（%）表示求模（余数）操作符</p>
+<p>在处理特殊值的情况下，遵循如下规则：</p>
+<ul>
+<li>操作数都是数值 ———— 常规除法计算，返回除得的余数</li>
+<li>被除数是无穷大值，除数是有限大的数值 ———— 返回NaN</li>
+<li>被除数是有限大的数值，除数是0 ———— 返回NaN</li>
+<li>Infinity被Infinity除 ———— 返回NaN</li>
+<li>被除数是有限大的数值，除数是无穷大值 ———— 返回被除数</li>
+<li>被除数是0 ———— 返回0</li>
+<li>有一个操作数不是数值 ———— 调用Number()转换为数值再应用上面的规则</li>
+</ul>
+<h3 id="加性操作符"><a href="#加性操作符" class="headerlink" title="加性操作符"></a>加性操作符</h3><h4 id="加法"><a href="#加法" class="headerlink" title="加法"></a>加法</h4><p>（+）表示加法操作符</p>
+<p>两个操作数都是数值，执行常规加法计算，遵循如下规则：</p>
+<ul>
+<li>有一个操作数是NaN ———— 返回NaN</li>
+<li>Infinity加Infinity ———— 返回Infinity</li>
+<li>-Infinity加-Infinity ———— 返回-Infinity</li>
+<li>Infinity加-Infinity ———— 返回NaN</li>
+<li>+0加+0 ———— 返回+0</li>
+<li>-0加-0 ———— 返回-0</li>
+<li>+0加-0 ———— 返回+0</li>
+</ul>
+<p>如果有一个操作数是字符串，遵循如下规则：</p>
+<ul>
+<li>两个操作数都是字符串 ———— 拼接第一个操作数与第二个操作数</li>
+<li>只有一个操作数是字符串 ———— 将另一个操作数转换成字符串再拼接</li>
+</ul>
+<p>如果有一个操作数是对象、数值或布尔值，调用toString()方法取得相应字符串值再应用上面的规则<br>对于undefined和null，分别调用String()函数取得字符串”undefined”和”null”</p>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var result1 = 5 + 5;</span><br><span class="line">alert(result1);              //10</span><br><span class="line"></span><br><span class="line">var result2 = 5 + &quot;5&quot;;</span><br><span class="line">alert(result2);              /&quot;55&quot;</span><br></pre></td></tr></table></figure></p>
+<p>常见错误：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var num1 = 5;</span><br><span class="line">var num2 = 10;</span><br><span class="line">var message = &quot;The sum of 5 and 10 is&quot; + num1 + num2;</span><br><span class="line">alert(message);              //&quot;The sum of 5 and 10 is 510&quot;</span><br></pre></td></tr></table></figure></p>
+<p>正确用法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var num1 = 5;</span><br><span class="line">var num2 = 10;</span><br><span class="line">var message = &quot;The sum of 5 and 10 is&quot; + (num1 + num2);</span><br><span class="line">alert(message);              //&quot;The sum of 5 and 10 is 15&quot;</span><br></pre></td></tr></table></figure></p>
+<h4 id="减法"><a href="#减法" class="headerlink" title="减法"></a>减法</h4><p>（-）表示减法操作符</p>
+<p>执行减法操作遵循如下规则：</p>
+<ul>
+<li>两个操作数都是数值 ———— 常规算术减法操作</li>
+<li>有一个操作数是NaN ———— 返回NaN</li>
+<li>Infinity减Infinity ———— 返回NaN</li>
+<li>-Infinity减-Infinity ———— 返回NaN</li>
+<li>Infinity减-Infinity ———— 返回Infinity</li>
+<li>-Infinity减Infinity ———— 返回-Infinity</li>
+<li>+0减+0 ———— 返回+0</li>
+<li>-0减+0 ———— 返回-0</li>
+<li>-0减-0 ———— 返回+0</li>
+<li>如果有一个操作数是字符串、布尔值、null或undefined ———— 调用Number()转换为数值再应用上面的规则；转换结果是NaN，减法结果就是NaN</li>
+<li>如果有一个操作数是对象 ———— 调用valueOf()取得该对象的数值；得到的结果是NaN，减法结果就是NaN；没有valueOf()方法则调用toString()将得到的字符串转换为数值</li>
+</ul>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var result1 = 5 - true;      //4，true转换成1</span><br><span class="line">var result2 = NaN - 1;       //NaN</span><br><span class="line">var result3 = 5 - 3;         //2</span><br><span class="line">var result4 = 5 - &quot;&quot;;        //5，&quot;&quot;转换成0</span><br><span class="line">var result5 = 5 - &quot;2&quot;;       //3，&quot;2&quot;转换成2</span><br><span class="line">var result6 = 5 - null;      //5，null转换成0</span><br></pre></td></tr></table></figure></p>
+<h3 id="关系操作符"><a href="#关系操作符" class="headerlink" title="关系操作符"></a>关系操作符</h3><p>小于（&lt;）、大于（&gt;）、小于等于（&lt;=）、大于等于（&gt;=）用于对两个值进行比较，结果都返回布尔值</p>
+<p>比较操作数遵循如下规则：</p>
+<ul>
+<li>两个操作数都是数值 ———— 执行数值比较</li>
+<li>两个操作数都是字符串 ———— 比较两个字符串对应的字符编码值</li>
+<li>一个操作数是数值 ———— 将另一个操作数转换为一个数值，执行数值比较</li>
+<li>一个操作数是对象 ———— 调用valueOf()用得到的结果按照上面的规则执行比较；没有valueOf()方法则调用toString()将得到的结果按照上面的规则执行比较</li>
+<li>一个操作数是布尔值 ———— 先将其转换为一个数值，再执行比较</li>
+</ul>
+<p>比较两个字符串时需注意是比较两个字符串对应的字符编码值，而大写字母的字符编码全部小于小写字母的字符编码，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var result = &quot;Brick&quot; &lt; &quot;alphabet&quot;;      //true</span><br></pre></td></tr></table></figure></p>
+<p>因为字母B字符编码为66，字母a是97，如果要真正按字母表顺序比较字符串，要转换成相同大小写再比较，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var result = &quot;Brick&quot;.toLowerCase() &lt; &quot;alphabet&quot;.toLowerCase();      //false</span><br></pre></td></tr></table></figure></p>
+<p>比较两个数字字符串时也会有一种奇怪的现象，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var result = &quot;23&quot; &lt; &quot;3&quot;;          //true</span><br></pre></td></tr></table></figure></p>
+<p>因为”2”字符编码是50，”3”字符编码是51，将一个操作数改为数值结果就正常了，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var result = &quot;23&quot; &lt; 3;            //false</span><br></pre></td></tr></table></figure></p>
+<p>如果字符串不能被转换成合理的数值，则：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var result = &quot;a&quot; &lt; 3;             //fasle，&quot;a&quot;被转换成NaN</span><br></pre></td></tr></table></figure></p>
+<p>根据规则，任何操作数与NaN比较都返回false，于是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var result1 = NaN &lt; 3;            //false</span><br><span class="line">var result2 = NaN &gt;= 3;           //false</span><br></pre></td></tr></table></figure></p>
+<p>按照常理，一个值不小于另一个值则一定大于或等于那个值，然而与NaN比较时都返回false</p>
+<h3 id="相等操作符"><a href="#相等操作符" class="headerlink" title="相等操作符"></a>相等操作符</h3><h4 id="相等和不相等-——-先转换再比较"><a href="#相等和不相等-——-先转换再比较" class="headerlink" title="相等和不相等 —— 先转换再比较"></a>相等和不相等 —— 先转换再比较</h4><p>（==）表示相等操作符，两个操作数相等返回true；（!=）表示不相等操作符，两个操作数不相等返回true</p>
+<p>转换不同的数据类型时，遵循如下规则：</p>
+<ul>
+<li>一个操作数是布尔值 ———— 比较相等性之前先将其转换为数值，false转换为0，true转换为1</li>
+<li>一个操作数是字符串，另一个是数值 ———— 比较相等性之前先将其转换为数值</li>
+<li>一个操作数是对象，另一个不是 ———— 调用valueOf()用得到的基本类型值按照上面的规则执行比较</li>
+</ul>
+<p>这两个操作符在进行比较时要遵循如下规则：</p>
+<ul>
+<li>null和undefined是相等的</li>
+<li>要比较相等性之前，不能将null和undefined转换成其他任何值</li>
+<li>一个操作数是NaN，相等操作符返回false，不相等操作符返回true（两个操作数都是NaN相等操作符也返回false，NaN不等于NaN）</li>
+<li>两个操作数都是对象，比较它们是不是同一个对象，都指向同一个对象则相等操作符返回true，否则返回false</li>
+</ul>
+<p>特殊情况及比较结果：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">表达式</th>
+<th style="text-align:center">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">null == undefined</td>
+<td style="text-align:center">true</td>
+</tr>
+<tr>
+<td style="text-align:center">“NaN” == NaN</td>
+<td style="text-align:center">false</td>
+</tr>
+<tr>
+<td style="text-align:center">5 == NaN</td>
+<td style="text-align:center">false</td>
+</tr>
+<tr>
+<td style="text-align:center">NaN == NaN</td>
+<td style="text-align:center">false</td>
+</tr>
+<tr>
+<td style="text-align:center">NaN != NaN</td>
+<td style="text-align:center">true</td>
+</tr>
+<tr>
+<td style="text-align:center">false == 0</td>
+<td style="text-align:center">true</td>
+</tr>
+<tr>
+<td style="text-align:center">true == 1</td>
+<td style="text-align:center">true</td>
+</tr>
+<tr>
+<td style="text-align:center">true == 2</td>
+<td style="text-align:center">false</td>
+</tr>
+<tr>
+<td style="text-align:center">undefined == 0</td>
+<td style="text-align:center">false</td>
+</tr>
+<tr>
+<td style="text-align:center">null == 0</td>
+<td style="text-align:center">false</td>
+</tr>
+<tr>
+<td style="text-align:center">“5” == 5</td>
+<td style="text-align:center">true</td>
+</tr>
+</tbody>
+</table>
+<h4 id="全等和不全等-——-仅比较而不转换"><a href="#全等和不全等-——-仅比较而不转换" class="headerlink" title="全等和不全等 —— 仅比较而不转换"></a>全等和不全等 —— 仅比较而不转换</h4><p>除了在比较前不转换操作数之外，全等和不全等操作符与相等和不相等操作符没有什么区别</p>
+<p>（===）表示全等操作符，它在两个操作数未经转换就相等的情况下返回true，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var result1 = (&quot;55&quot; == 55);        //true，转换后相等</span><br><span class="line">var result2 = (&quot;55&quot; === 55);       //false，不同的数据类型不相等</span><br></pre></td></tr></table></figure></p>
+<p>（!==）表示不全等操作符，它在两个操作数未经转换就不相等的情况下返回true，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var result1 = (&quot;55&quot; != 55);        //false，转换后相等</span><br><span class="line">var result2 = (&quot;55&quot; !== 55);       //true，不同的数据类型不相等</span><br></pre></td></tr></table></figure></p>
+<p><em>注意：null == undefined返回true，null === undefined返回false</em></p>
+<h3 id="条件操作符"><a href="#条件操作符" class="headerlink" title="条件操作符"></a>条件操作符</h3><p>例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">variable = boolean_expression ? true_value : false_value;</span><br></pre></td></tr></table></figure></p>
+<p>本质含义：基于对boolean_expression求值结果给变量variable赋值。求值结果为true，给变量variable赋true_value值，结果为false，给变量variable赋false_value值</p>
+<p>例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var max = (num1 &gt; num2) ? num1 : num2;      //max中会保存一个最大的值</span><br></pre></td></tr></table></figure></p>
+<h3 id="赋值操作符"><a href="#赋值操作符" class="headerlink" title="赋值操作符"></a>赋值操作符</h3><p>（=）表示赋值操作符，把右侧的值赋给左侧的变量</p>
+<p>在等于号前加乘性操作符、加性操作符或位操作符可以完成复合赋值操作，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var num = 10;</span><br><span class="line">num = num + 10;</span><br><span class="line"></span><br><span class="line">//复合赋值</span><br><span class="line">var num = 10;</span><br><span class="line">num += 10;</span><br></pre></td></tr></table></figure></p>
+<p>复合赋值操作符如下所示：</p>
+<ul>
+<li>乘/赋值（*=）</li>
+<li>除/赋值（/=）</li>
+<li>模/赋值（%=）</li>
+<li>加/赋值（+=）</li>
+<li>减/赋值（-=）</li>
+<li>左移/赋值（&lt;&lt;=）</li>
+<li>有符号右移/赋值（&gt;&gt;=）</li>
+<li>无符号右移/赋值（&gt;&gt;&gt;=）</li>
+</ul>
+<h3 id="逗号操作符"><a href="#逗号操作符" class="headerlink" title="逗号操作符"></a>逗号操作符</h3><p>使用逗号操作符可以在一条语句中执行多个操作，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var num1 = 1, num2 = 2, num3 = 3;</span><br></pre></td></tr></table></figure></p>
+<p>逗号操作符多用于声明多个变量，还可用于赋值，用于赋值时总会返回表达式中最后一项，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var num = (5, 1, 4, 8, 0);     //num值为0</span><br></pre></td></tr></table></figure></p>
+<h2 id="语句-1"><a href="#语句-1" class="headerlink" title="语句"></a>语句</h2>
       
     </div>
     
@@ -1024,7 +1199,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript组成"><span class="nav-number">1.</span> <span class="nav-text">JavaScript组成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法"><span class="nav-number">2.</span> <span class="nav-text">语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#区分大小写"><span class="nav-number">2.1.</span> <span class="nav-text">区分大小写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标识符"><span class="nav-number">2.2.</span> <span class="nav-text">标识符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注释"><span class="nav-number">2.3.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#严格模式"><span class="nav-number">2.4.</span> <span class="nav-text">严格模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语句"><span class="nav-number">2.5.</span> <span class="nav-text">语句</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键字和保留字"><span class="nav-number">3.</span> <span class="nav-text">关键字和保留字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量"><span class="nav-number">4.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型"><span class="nav-number">5.</span> <span class="nav-text">数据类型*</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#typeof操作符"><span class="nav-number">5.1.</span> <span class="nav-text">typeof操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Undefined类型"><span class="nav-number">5.2.</span> <span class="nav-text">Undefined类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Null类型"><span class="nav-number">5.3.</span> <span class="nav-text">Null类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boolean类型"><span class="nav-number">5.4.</span> <span class="nav-text">Boolean类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Number类型"><span class="nav-number">5.5.</span> <span class="nav-text">Number类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#浮点数值"><span class="nav-number">5.5.1.</span> <span class="nav-text">浮点数值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数值范围"><span class="nav-number">5.5.2.</span> <span class="nav-text">数值范围</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NaN"><span class="nav-number">5.5.3.</span> <span class="nav-text">NaN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数值转换"><span class="nav-number">5.5.4.</span> <span class="nav-text">数值转换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#String类型"><span class="nav-number">5.6.</span> <span class="nav-text">String类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字符字面量"><span class="nav-number">5.6.1.</span> <span class="nav-text">字符字面量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串的特点"><span class="nav-number">5.6.2.</span> <span class="nav-text">字符串的特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#转换为字符串"><span class="nav-number">5.6.3.</span> <span class="nav-text">转换为字符串</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object类型"><span class="nav-number">5.7.</span> <span class="nav-text">Object类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作符"><span class="nav-number">6.</span> <span class="nav-text">操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一元操作符"><span class="nav-number">6.1.</span> <span class="nav-text">一元操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#递增和递减操作符"><span class="nav-number">6.1.1.</span> <span class="nav-text">递增和递减操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一元加和减操作符"><span class="nav-number">6.1.2.</span> <span class="nav-text">一元加和减操作符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#位操作符"><span class="nav-number">6.2.</span> <span class="nav-text">位操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#按位非（NOT）"><span class="nav-number">6.2.1.</span> <span class="nav-text">按位非（NOT）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#按位与（AND）"><span class="nav-number">6.2.2.</span> <span class="nav-text">按位与（AND）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#按位或（OR）"><span class="nav-number">6.2.3.</span> <span class="nav-text">按位或（OR）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#按位异或（XOR）"><span class="nav-number">6.2.4.</span> <span class="nav-text">按位异或（XOR）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#左移"><span class="nav-number">6.2.5.</span> <span class="nav-text">左移</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#有符号的右移"><span class="nav-number">6.2.6.</span> <span class="nav-text">有符号的右移</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#无符号右移"><span class="nav-number">6.2.7.</span> <span class="nav-text">无符号右移</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#布尔操作符"><span class="nav-number">6.3.</span> <span class="nav-text">布尔操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑非"><span class="nav-number">6.3.1.</span> <span class="nav-text">逻辑非</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑与"><span class="nav-number">6.3.2.</span> <span class="nav-text">逻辑与</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑或"><span class="nav-number">6.3.3.</span> <span class="nav-text">逻辑或</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#乘性操作符"><span class="nav-number">6.4.</span> <span class="nav-text">乘性操作符</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript组成"><span class="nav-number">1.</span> <span class="nav-text">JavaScript组成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法"><span class="nav-number">2.</span> <span class="nav-text">语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#区分大小写"><span class="nav-number">2.1.</span> <span class="nav-text">区分大小写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标识符"><span class="nav-number">2.2.</span> <span class="nav-text">标识符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注释"><span class="nav-number">2.3.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#严格模式"><span class="nav-number">2.4.</span> <span class="nav-text">严格模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语句"><span class="nav-number">2.5.</span> <span class="nav-text">语句</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键字和保留字"><span class="nav-number">3.</span> <span class="nav-text">关键字和保留字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量"><span class="nav-number">4.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型"><span class="nav-number">5.</span> <span class="nav-text">数据类型*</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#typeof操作符"><span class="nav-number">5.1.</span> <span class="nav-text">typeof操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Undefined类型"><span class="nav-number">5.2.</span> <span class="nav-text">Undefined类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Null类型"><span class="nav-number">5.3.</span> <span class="nav-text">Null类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boolean类型"><span class="nav-number">5.4.</span> <span class="nav-text">Boolean类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Number类型"><span class="nav-number">5.5.</span> <span class="nav-text">Number类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#浮点数值"><span class="nav-number">5.5.1.</span> <span class="nav-text">浮点数值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数值范围"><span class="nav-number">5.5.2.</span> <span class="nav-text">数值范围</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NaN"><span class="nav-number">5.5.3.</span> <span class="nav-text">NaN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数值转换"><span class="nav-number">5.5.4.</span> <span class="nav-text">数值转换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#String类型"><span class="nav-number">5.6.</span> <span class="nav-text">String类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字符字面量"><span class="nav-number">5.6.1.</span> <span class="nav-text">字符字面量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串的特点"><span class="nav-number">5.6.2.</span> <span class="nav-text">字符串的特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#转换为字符串"><span class="nav-number">5.6.3.</span> <span class="nav-text">转换为字符串</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object类型"><span class="nav-number">5.7.</span> <span class="nav-text">Object类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作符"><span class="nav-number">6.</span> <span class="nav-text">操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一元操作符"><span class="nav-number">6.1.</span> <span class="nav-text">一元操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#递增和递减操作符"><span class="nav-number">6.1.1.</span> <span class="nav-text">递增和递减操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一元加和减操作符"><span class="nav-number">6.1.2.</span> <span class="nav-text">一元加和减操作符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#位操作符"><span class="nav-number">6.2.</span> <span class="nav-text">位操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#按位非（NOT）"><span class="nav-number">6.2.1.</span> <span class="nav-text">按位非（NOT）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#按位与（AND）"><span class="nav-number">6.2.2.</span> <span class="nav-text">按位与（AND）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#按位或（OR）"><span class="nav-number">6.2.3.</span> <span class="nav-text">按位或（OR）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#按位异或（XOR）"><span class="nav-number">6.2.4.</span> <span class="nav-text">按位异或（XOR）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#左移"><span class="nav-number">6.2.5.</span> <span class="nav-text">左移</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#有符号的右移"><span class="nav-number">6.2.6.</span> <span class="nav-text">有符号的右移</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#无符号右移"><span class="nav-number">6.2.7.</span> <span class="nav-text">无符号右移</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#布尔操作符"><span class="nav-number">6.3.</span> <span class="nav-text">布尔操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑非"><span class="nav-number">6.3.1.</span> <span class="nav-text">逻辑非</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑与"><span class="nav-number">6.3.2.</span> <span class="nav-text">逻辑与</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑或"><span class="nav-number">6.3.3.</span> <span class="nav-text">逻辑或</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#乘性操作符"><span class="nav-number">6.4.</span> <span class="nav-text">乘性操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#乘法"><span class="nav-number">6.4.1.</span> <span class="nav-text">乘法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#除法"><span class="nav-number">6.4.2.</span> <span class="nav-text">除法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#求模"><span class="nav-number">6.4.3.</span> <span class="nav-text">求模</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加性操作符"><span class="nav-number">6.5.</span> <span class="nav-text">加性操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#加法"><span class="nav-number">6.5.1.</span> <span class="nav-text">加法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#减法"><span class="nav-number">6.5.2.</span> <span class="nav-text">减法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关系操作符"><span class="nav-number">6.6.</span> <span class="nav-text">关系操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相等操作符"><span class="nav-number">6.7.</span> <span class="nav-text">相等操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#相等和不相等-——-先转换再比较"><span class="nav-number">6.7.1.</span> <span class="nav-text">相等和不相等 —— 先转换再比较</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#全等和不全等-——-仅比较而不转换"><span class="nav-number">6.7.2.</span> <span class="nav-text">全等和不全等 —— 仅比较而不转换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#条件操作符"><span class="nav-number">6.8.</span> <span class="nav-text">条件操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#赋值操作符"><span class="nav-number">6.9.</span> <span class="nav-text">赋值操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逗号操作符"><span class="nav-number">6.10.</span> <span class="nav-text">逗号操作符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语句-1"><span class="nav-number">7.</span> <span class="nav-text">语句</span></a></li></ol></div>
             
 
           </div>
